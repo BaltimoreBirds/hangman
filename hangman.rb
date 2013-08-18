@@ -17,6 +17,12 @@ edit_winner= winning_word
 
 puts winning_word='robber'
 
+winning_array=winning_word.chars.to_a
+
+
+
+
+
 
 
 
@@ -66,9 +72,22 @@ while true
     puts 'The word has that letter!'
     puts''
     right_guesses.push(guess)
-
     word_so_far.insert(index_of_GoodGuess, guess).slice(index_of_GoodGuess+1)
+
+
+    i=0
+    winning_array.each do |letter|
+
+      if letter == guess
+        word_so_far.insert(i, guess).slice(i +1)
+      end
+      i=i+1
     end
+
+
+
+
+
   end
 
 
