@@ -10,16 +10,16 @@ word_bank=['cowboys', 'indians', 'cops', 'robbers', 'water', 'bottle', 'table', 
           'pencil', 'marker','cleaner', 'ergonomic' 'switch' 'flag', 'terminal', 'back' , 'chest', 'plant', 'flower', 'kaboom',
           'bomb', 'building', 'car', 'plane', 'train' 'automobile', 'bark', 'catdog', 'pillar', 'support', 'beers']
 
-
+            ## word_bank.sample   will return a random word from the array.
 random_num=rand(69)
 winning_word= word_bank[random_num] #THIS WORKS
 edit_winner= winning_word
 
-puts winning_word='robber'
+winning_word='robber'
 
 winning_array=winning_word.chars.to_a
 
-
+num_of_guesses= winning_word.length*1.5
 
 
 
@@ -32,43 +32,55 @@ puts"To win, guess the word, by typing the word."
 puts''
 puts"You may also guess letters one at a time."
 puts''
-#puts" You have " +num_of_guesses +" guesses left"
+puts" You have #{num_of_guesses} guesses. Guessing wrong will cost you"
+puts"Guessing the same letter twice will cost you"
 puts""
 
-#def num_of_guesses ##word size plus [depends on size of word]??
-#end
 
-#def valid_guess guess
-#end
+
+def valid_guess(guess, already_guessed, num_of_guesses)
+
+  while true
+    if already_guessed.rindex(guess) != nil
+      num_of_guesses = ((num_of_guesses)-1)
+      puts"You already guessed that! Try again"
+      puts "You have #{num_of_guesses} guesses left"
+      guess=gets.chomp
+      num_of_guesses = ((num_of_guesses)-1)
+    else
+      break
+
+    end
+  end
+
+end
 
 
 guesses=[]      #for guess validation
 
-empty_word_display='_' *winning_word.length  #THIS WORKS, displays unguessed letters as blanks
+empty_word_display='_' * winning_word.length  #THIS WORKS, displays unguessed letters as blanks
 word_so_far=empty_word_display                #THIS WORKS, for adding letters as guessed appropriatly
 
-#puts word_so_far                               #THIS WORKS
+
 
 puts"This is your word:   #{word_so_far}  . Now guess:"
-guess=gets.chomp
+
 
 while true
 
 
-
-  #valid_guess           #validates a guess
+  guess=gets.chomp
+  valid_guess(guess, guesses, num_of_guesses)         #validates a guess
 
   index_of_GoodGuess = winning_word.rindex(guess) #THIS WORKS
 
-  if guess == winning_word
-    puts"You win!"
+  if index_of_GoodGuess == nil
+    puts "SORRY! STRING UP THE NOOSE BOYS, WE GOT A LIVE ONE!"
+    puts""
+    num_of_guesses= num_of_guesses-1
+    guesses.push(guess)
 
-  elsif index_of_GoodGuess == nil
-  puts "SORRY! STRING UP THE NOOSE BOYS, WE GOT A LIVE ONE!"
-  guesses.push(guess)
-  #num_of_guesses= num_of_guesses-1
-
-  elsif guess == winning_word[index_of_GoodGuess]
+  elsif guess == winning_word[index_of_GoodGuess] && index_of_GoodGuess != nil
     puts 'The word has that letter!'
     puts''
     guesses.push(guess)
@@ -81,13 +93,41 @@ while true
       end
       i=i+1
     end
+  #----------------Game is over-------------------------------
+  elsif word_so_far == winning_word || guess == winning_word
+     puts"~~~~~~~~Got it! You Win!~~~~~~~~~"
+     puts"Enter to quit to end game." "Type play to play again."
+     guess=gets.chomp
+    if guess.downcase=='quit'
+        exit
+    elsif guess.downcase == 'play'
+        winning_word=word_bank.sample
+        num_of_guesses= winning_word.length*1.5
+        guesses=[]
+        empty_word_display='_' *winning_word.length
+        word_so_far=empty_word_display
+    end
+  elsif num_of_guesses == 0
+    puts"~~~~~~~~~You're out of guesses!! YOU LOSE~~~~~~~"
+    puts"Enter to quit to end game." "Type play to play again."
+    guess=gets.chomp
 
+    if guess.downcase=='quit'
+      exit
+    elsif guess.downcase == 'play'
+      winning_word=word_bank.sample
+      num_of_guesses= winning_word.length*1.5
+      guesses=[]
+      empty_word_display='_' *winning_word.length
+      word_so_far=empty_word_display
+    end
+    #--------------------------------------------------------------
   end
 
-  #num_of_guesses= num_of_guesses-1
+
+  puts "you have #{num_of_guesses} remaining."
 
   puts"This is the word so far:   #{word_so_far}  . Guess again:"
-  guess=gets.chomp
 
 end
 
