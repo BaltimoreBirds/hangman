@@ -64,23 +64,25 @@ word_so_far=empty_word_display                #THIS WORKS, for adding letters as
 
 
 puts"This is your word:   #{word_so_far}  . Now guess:"
-
+guess=gets.chomp
 
 while true
 
 
-  guess=gets.chomp
+
   valid_guess(guess, guesses, num_of_guesses)         #validates a guess
 
   index_of_GoodGuess = winning_word.rindex(guess) #THIS WORKS
 
-  if index_of_GoodGuess == nil
-    puts "SORRY! STRING UP THE NOOSE BOYS, WE GOT A LIVE ONE!"
-    puts""
-    num_of_guesses= num_of_guesses-1
-    guesses.push(guess)
+  if guess == winning_word
+    puts"You win!"
 
-  elsif guess == winning_word[index_of_GoodGuess] && index_of_GoodGuess != nil
+  elsif index_of_GoodGuess == nil
+  puts "SORRY! STRING UP THE NOOSE BOYS, WE GOT A LIVE ONE!"
+  guesses.push(guess)
+  #num_of_guesses= num_of_guesses-1
+
+  elsif guess == winning_word[index_of_GoodGuess]
     puts 'The word has that letter!'
     puts''
     guesses.push(guess)
@@ -93,42 +95,13 @@ while true
       end
       i=i+1
     end
-  #----------------Game is over-------------------------------
-  elsif word_so_far == winning_word || guess == winning_word
-     puts"~~~~~~~~Got it! You Win!~~~~~~~~~"
-     puts"Enter to quit to end game." "Type play to play again."
-     guess=gets.chomp
-    if guess.downcase=='quit'
-        exit
-    elsif guess.downcase == 'play'
-        winning_word=word_bank.sample
-        num_of_guesses= winning_word.length*1.5
-        guesses=[]
-        empty_word_display='_' *winning_word.length
-        word_so_far=empty_word_display
-    end
-  elsif num_of_guesses == 0
-    puts"~~~~~~~~~You're out of guesses!! YOU LOSE~~~~~~~"
-    puts"Enter to quit to end game." "Type play to play again."
-    guess=gets.chomp
 
-    if guess.downcase=='quit'
-      exit
-    elsif guess.downcase == 'play'
-      winning_word=word_bank.sample
-      num_of_guesses= winning_word.length*1.5
-      guesses=[]
-      empty_word_display='_' *winning_word.length
-      word_so_far=empty_word_display
-    end
-    #--------------------------------------------------------------
   end
 
-
-  puts "you have #{num_of_guesses} remaining."
+  #num_of_guesses= num_of_guesses-1
 
   puts"This is the word so far:   #{word_so_far}  . Guess again:"
-
+  guess=gets.chomp
 end
 
 
