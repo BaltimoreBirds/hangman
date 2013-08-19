@@ -11,7 +11,7 @@ word_bank=['cowboys', 'indians', 'cops', 'robbers', 'water', 'bottle', 'table', 
           'bomb', 'building', 'car', 'plane', 'train' 'automobile', 'bark', 'catdog', 'pillar', 'support', 'beers']
 
             ## word_bank.sample   will return a random word from the array.
-random_num=rand(69)
+random_num=rand(word_bank.length)
 winning_word= word_bank[random_num] #THIS WORKS
 edit_winner= winning_word
 
@@ -19,7 +19,7 @@ winning_word='robber'
 
 winning_array=winning_word.chars.to_a
 
-num_of_guesses= winning_word.length*1.5
+@num_of_guesses= winning_word.length*1.5
 
 
 
@@ -32,27 +32,26 @@ puts"To win, guess the word, by typing the word."
 puts''
 puts"You may also guess letters one at a time."
 puts''
-puts" You have #{num_of_guesses} guesses. Guessing wrong will cost you"
+puts" You have #{@num_of_guesses} guesses. Guessing wrong will cost you"
 puts"Guessing the same letter twice will cost you"
 puts""
 
 
 
-def valid_guess(guess, already_guessed, num_of_guesses)
+def valid_guess(guess, already_guessed)
 
-  while true
-    if already_guessed.rindex(guess) != nil
-      num_of_guesses = ((num_of_guesses)-1)
+    if already_guessed.include?(guess)
+      @num_of_guesses -= 1
       puts"You already guessed that! Try again"
-      puts "You have #{num_of_guesses} guesses left"
-      guess=gets.chomp
+      puts "You have #{@num_of_guesses} guesses left"
+      # guess=gets.chomp
+      false
     else
-      break
+      true
     end
-  end
-
 
 end
+
 
 
 guesses=[]      #stores guesses
@@ -69,41 +68,43 @@ while true
   puts"This is the word so far:   #{word_so_far}  . Guess a single letter (a-z) or the entire word:"
   guess=gets.chomp
 
-  valid_guess(guess, guesses, num_of_guesses)         #validates a guess
+  if valid_guess(guess, guesses)         #validates a guess
 
-  index_of_GoodGuess = winning_word.rindex(guess) #THIS WORKS
+    index_of_GoodGuess = winning_word.rindex(guess) #THIS WORKS
 
-  if guess == winning_word
-    puts"~~~~~~~~~~~~You win!~~~~~~~~~~~~~~~~~~"
-    exit
+    if guess == winning_word
+      puts"~~~~~~~~~~~~You win!~~~~~~~~~~~~~~~~~~"
+      exit
 
-  elsif index_of_GoodGuess == nil
-  puts "SORRY! "
-  guesses.push(guess)
-  num_of_guesses=num_of_guesses-1
+    elsif index_of_GoodGuess == nil
+      puts "SORRY! "
+      guesses.push(guess)
+      @num_of_guesses -= 1
+      puts "You have #{@num_of_guesses} guesses remaining"
+      puts ""
 
-  elsif guess == winning_word[index_of_GoodGuess]
-    puts 'The word has that letter!'
-    puts''
-    guesses.push(guess)
+    elsif guess == winning_word[index_of_GoodGuess]
+      puts 'The word has that letter!'
+      puts''
+      guesses.push(guess)
 
 
-    i=0
-    winning_array.each do |letter|
+      i=0
+      winning_array.each do |letter|
 
-      if letter == guess
-        word_so_far.insert(i, guess).slice!(i + 1)
+        if letter == guess
+          word_so_far.insert(i, guess).slice!(i + 1)
+        end
+        i=i+1
       end
-      i=i+1
+
     end
 
+    if word_so_far == winning_word
+      puts"~~~~~~~~~~~~~~~~~YOU WIN!~~~~~~~~~~~~~~~~~"
+      exit
+    end
   end
-
-  if word_so_far == winning_word
-    puts"~~~~~~~~~~~~~~~~~YOU WIN!~~~~~~~~~~~~~~~~~"
-    exit
-  end
-
 end
 
 
