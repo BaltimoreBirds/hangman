@@ -46,46 +46,47 @@ def valid_guess(guess, already_guessed, num_of_guesses)
       puts"You already guessed that! Try again"
       puts "You have #{num_of_guesses} guesses left"
       guess=gets.chomp
-      num_of_guesses = ((num_of_guesses)-1)
     else
       break
-
     end
   end
+
 
 end
 
 
-guesses=[]      #for guess validation
+guesses=[]      #stores guesses
 
-empty_word_display='_' * winning_word.length  #THIS WORKS, displays unguessed letters as blanks
-word_so_far=empty_word_display                #THIS WORKS, for adding letters as guessed appropriatly
+empty_word_display='_' * winning_word.length  # displays unguessed letters as blanks
+word_so_far=empty_word_display                #for adding letters as guessed appropriatly
 
 
 
-puts"This is your word:   #{word_so_far}  . Now guess:"
-guess=gets.chomp
+
 
 while true
 
-
+  puts"This is the word so far:   #{word_so_far}  . Guess a single letter (a-z) or the entire word:"
+  guess=gets.chomp
 
   valid_guess(guess, guesses, num_of_guesses)         #validates a guess
 
   index_of_GoodGuess = winning_word.rindex(guess) #THIS WORKS
 
   if guess == winning_word
-    puts"You win!"
+    puts"~~~~~~~~~~~~You win!~~~~~~~~~~~~~~~~~~"
+    exit
 
   elsif index_of_GoodGuess == nil
-  puts "SORRY! STRING UP THE NOOSE BOYS, WE GOT A LIVE ONE!"
+  puts "SORRY! "
   guesses.push(guess)
-  #num_of_guesses= num_of_guesses-1
+  num_of_guesses=num_of_guesses-1
 
   elsif guess == winning_word[index_of_GoodGuess]
     puts 'The word has that letter!'
     puts''
     guesses.push(guess)
+
 
     i=0
     winning_array.each do |letter|
@@ -98,9 +99,12 @@ while true
 
   end
 
-  #num_of_guesses= num_of_guesses-1
+  if word_so_far == winning_word
+    puts"~~~~~~~~~~~~~~~~~YOU WIN!~~~~~~~~~~~~~~~~~"
+    exit
+  end
 
-  puts"This is the word so far:   #{word_so_far}  . Guess again:"
+  puts"This is the word so far:   #{word_so_far}  . Guess a single letter (a-z) or the entire word:"
   guess=gets.chomp
 end
 
