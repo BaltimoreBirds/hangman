@@ -104,8 +104,6 @@ while true
     exit
   end
 
-  puts"This is the word so far:   #{word_so_far}  . Guess a single letter (a-z) or the entire word:"
-  guess=gets.chomp
 end
 
 
